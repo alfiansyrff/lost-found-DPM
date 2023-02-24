@@ -230,7 +230,7 @@ async function connectToWhatsApp() {
                 }    
                 // REQ API Buat laporan kehilangan 
                 else if (messages[0].message.conversation.includes("Silahkan buat laporan kehilangan")) {
-                    let keys = ["Nama pelapor: ", "barang yang hilang: ", "lokasi terakhir terlihat: ", "waktu kehilangan (opsional): ", "detail barang: ", "foto barang (opsional): "];
+                    let keys = ["Nama pelapor:", "barang yang hilang:", "lokasi terakhir terlihat:", "waktu kehilangan (opsional):", "detail barang:", "foto barang (opsional):"];
                     let values = [];
 
                     keys.forEach(key => {
@@ -252,7 +252,7 @@ async function connectToWhatsApp() {
                 }
                 // REQ API buat laporan penemuan
                 else if (messages[0].message.conversation.includes("Silahkan buat laporan penemuan")) {
-                    let keys = ["Nama pelapor: ", "barang yang ditemukan: ", "lokasi penemuan: ", "waktu penemuan: ", "detail barang: ", "foto barang: "];
+                    let keys = ["Nama pelapor:", "barang yang ditemukan:", "lokasi penemuan:", "waktu penemuan:", "detail barang:", "foto barang:"];
                     let values = [];
 
                     keys.forEach(key => {
