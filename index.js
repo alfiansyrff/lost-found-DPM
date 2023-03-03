@@ -230,17 +230,16 @@ async function connectToWhatsApp() {
                 }    
                 // REQ API Buat laporan kehilangan 
                 else if (messages[0].message.conversation.includes("Silahkan buat laporan kehilangan")) {
-                    let keys = ["Nama pelapor:", "barang yang hilang:", "lokasi terakhir terlihat:", "waktu kehilangan (opsional):", "detail barang:", "foto barang (opsional):"];
-                    let values = [];
+                    const keys = ["Nama pelapor", "barang yang ditemukan", "lokasi penemuan", "waktu penemuan (opsional)", "detail barang", "foto barang"];
+                    const obj = {};
 
-                    keys.forEach(key => {
-                    let startIndex = messages[0].message.conversation.indexOf(key) + key.length;
-                    let endIndex = messages[0].message.conversation.indexOf("\n", startIndex);
-                    let value = messages[0].message.conversation.substring(startIndex, endIndex);
-                    values.push(value);
-                    });
-                    // console.log(values);
-                    axios.get(`${BASE_URL}action=laporan&jenis=kehilangan&nama=${values[0]}&whatsapp=${noWa.replace("@s.whatsapp.net", "")}&tempat=${values[2]}&waktu=${values[3]}&detail=${values[4]}&barang=${values[1]}&foto=${values[5]}`)
+		    keys.forEach(key => {
+			let startIndex = messages[0].message.conversation.indexOf(key + ":") + key.length + 1;
+			let endIndex = messages[0].message.conversation.indexOf("\n", startIndex);
+			let value = messages[0].message.conversation.substring(startIndex, endIndex);
+			obj[key] = value.trim();
+		    });
+			axios.get(`${BASE_URL}action=laporan&jenis=kehilangan&nama=${obj["Nama pelapor"]}&whatsapp=${noWa.replace("@s.whatsapp.net", "")}&tempat=${obj["lokasi penemuan"]}&waktu=${obj["waktu penemuan (opsional)"]}&detail=${obj["detail barang"]}&barang=${obj["barang yang ditemukan"]}&foto=${obj["foto barang"]}`)
                       .then(async (response) => {
                         let {success, data, message} = response.data;
                         if (success) {
@@ -252,17 +251,17 @@ async function connectToWhatsApp() {
                 }
                 // REQ API buat laporan penemuan
                 else if (messages[0].message.conversation.includes("Silahkan buat laporan penemuan")) {
-                    let keys = ["Nama pelapor:", "barang yang ditemukan:", "lokasi penemuan:", "waktu penemuan:", "detail barang:", "foto barang:"];
-                    let values = [];
+                    const keys = ["Nama pelapor", "barang yang ditemukan", "lokasi penemuan", "waktu penemuan (opsional)", "detail barang", "foto barang"];
+                    const obj = {};
 
                     keys.forEach(key => {
-                    let startIndex = messages[0].message.conversation.indexOf(key) + key.length;
-                    let endIndex = messages[0].message.conversation.indexOf("\n", startIndex);
-                    let value = messages[0].message.conversation.substring(startIndex, endIndex);
-                    values.push(value);
+                        let startIndex = messages[0].message.conversation.indexOf(key + ":") + key.length + 1;
+                        let endIndex = messages[0].message.conversation.indexOf("\n", startIndex);
+                        let value = messages[0].message.conversation.substring(startIndex, endIndex);
+                        obj[key] = value.trim();
                     });
                   
-                    axios.get(`${BASE_URL}action=laporan&jenis=penemuan&nama=${values[0]}&whatsapp=${noWa.replace("@s.whatsapp.net", "")}&tempat=${values[2]}&waktu=${values[3]}&detail=${values[4]}&barang=${values[1]}&foto=${values[5]}`)
+                   axios.get(`${BASE_URL}action=laporan&jenis=penemuan&nama=${obj["Nama pelapor"]}&whatsapp=${noWa.replace("@s.whatsapp.net", "")}&tempat=${obj["lokasi penemuan"]}&waktu=${obj["waktu penemuan (opsional)"]}&detail=${obj["detail barang"]}&barang=${obj["barang yang ditemukan"]}&foto=${obj["foto barang"]}`)
                       .then(async (response) => {
                         let {success, data, message} = response.data;
                         if (success) {
