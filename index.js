@@ -230,7 +230,7 @@ async function connectToWhatsApp() {
                 }    
                 // REQ API Buat laporan kehilangan 
                 else if (messages[0].message.conversation.includes("Silahkan buat laporan kehilangan")) {
-                    const keys = ["Nama pelapor", "barang yang ditemukan", "lokasi penemuan", "waktu penemuan (opsional)", "detail barang", "foto barang"];
+                    const keys = ["Nama pelapor", "barang yang hilang", "lokasi terakhir terlihat", "waktu kehilangan (opsional)", "detail barang", "foto barang (opsional)"];
                     const obj = {};
 
 		    keys.forEach(key => {
@@ -239,7 +239,7 @@ async function connectToWhatsApp() {
 			let value = messages[0].message.conversation.substring(startIndex, endIndex);
 			obj[key] = value.trim();
 		    });
-			axios.get(`${BASE_URL}action=laporan&jenis=kehilangan&nama=${obj["Nama pelapor"]}&whatsapp=${noWa.replace("@s.whatsapp.net", "")}&tempat=${obj["lokasi penemuan"]}&waktu=${obj["waktu penemuan (opsional)"]}&detail=${obj["detail barang"]}&barang=${obj["barang yang ditemukan"]}&foto=${obj["foto barang"]}`)
+			axios.get(`${BASE_URL}action=laporan&jenis=kehilangan&nama=${obj["Nama pelapor"]}&whatsapp=${noWa.replace("@s.whatsapp.net", "")}&tempat=${obj["lokasi terakhir terlihat"]}&waktu=${obj["waktu kehilangan (opsional)"]}&detail=${obj["detail barang"]}&barang=${obj["barang yang hilang"]}&foto=${obj["foto barang (opsional)"]}`)
                       .then(async (response) => {
                         let {success, data, message} = response.data;
                         if (success) {
